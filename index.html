@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ CPNS TWK Master: Feminine & Formal Edition 🌸</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* === RESET & GLOBAL VARIABLES === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #d63384; /* Deep Pink/Magenta */
+            --secondary: #ffb6c1; /* Light Pink */
+            --bg-color: #fff0f5; /* Lavender Blush */
+            --text-main: #4a4a4a;
+            --white: #ffffff;
+            --correct: #2e8b57;
+            --wrong: #dc143c;
+            --gold: #d4af37;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            background-image: radial-gradient(var(--secondary) 1px, transparent 1px);
+            background-size: 20px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* === HEADER & NAVIGATION === */
+        header {
+            background: var(--white);
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(214, 51, 132, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        header h1 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: var(--white);
+            border: 2px solid var(--secondary);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(214, 51, 132, 0.3);
+        }
+
+        /* === MAIN CONTAINER === */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+            flex-grow: 1;
+        }
+
+        .section {
+            display: none;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            animation: fadeIn 0.5s ease;
+            border-top: 5px solid var(--primary);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2.title {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+            border-bottom: 2px dashed var(--secondary);
+            padding-bottom: 10px;
+        }
+
+        /* === QUIZ SECTION (HOTS) === */
+        .question-box {
+            margin-bottom: 20px;
+        }
+        .question-text {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-btn {
+            background: var(--bg-color);
+            border: 2px solid var(--secondary);
+            padding: 12px 15px;
+            border-radius: 10px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.2s;
+            color: var(--text-main);
+        }
+        .option-btn:hover:not(:disabled) {
+            background: var(--secondary);
+            color: var(--white);
+        }
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+        .option-btn.correct {
+            background: var(--correct);
+            border-color: var(--correct);
+            color: white;
+            box-shadow: 0 0 10px rgba(46, 139, 87, 0.4);
+        }
+        .option-btn.wrong {
+            background: var(--wrong);
+            border-color: var(--wrong);
+            color: white;
+            opacity: 0.8;
+        }
+        .explanation {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff8e1;
+            border-left: 5px solid var(--gold);
+            border-radius: 5px;
+            font-size: 14px;
+            animation: fadeIn 0.5s ease;
+        }
+        .btn-action {
+            display: none;
+            margin: 20px auto 0;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(214, 51, 132, 0.3);
+            transition: 0.3s;
+        }
+        .btn-action:hover {
+            transform: scale(1.05);
+            background: #b82a70;
+        }
+
+        /* Result Screen */
+        .result-screen {
+            text-align: center;
+            display: none;
+        }
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            border: 10px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 0 auto 20px;
+        }
+
+        /* === FLASHCARD SECTION === */
+        .flashcard-container {
+            perspective: 1000px;
+            width: 100%;
+            height: 250px;
+            margin: 20px auto;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .flashcard.flip {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .flashcard-front {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .flashcard-back {
+            background: var(--white);
+            color: var(--text-main);
+            border: 2px solid var(--primary);
+            transform: rotateY(180deg);
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .flashcard-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        /* === CHECKLIST SECTION === */
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            transition: 0.3s;
+            border-left: 4px solid var(--secondary);
+        }
+        .checklist-item:hover {
+            transform: translateX(5px);
+            border-left-color: var(--primary);
+        }
+        .checklist-item input[type="checkbox"] {
+            margin-top: 5px;
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+        .checklist-text {
+            flex-grow: 1;
+        }
+        .pasal-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+            display: block;
+        }
+        .pasal-desc {
+            font-size: 14px;
+        }
+        .checked-text .pasal-title, .checked-text .pasal-desc {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🌸 CPNS TWK Master 🎀</h1>
+        <nav>
+            <button class="nav-btn active" onclick="showSection('home')">🏠 Home</button>
+            <button class="nav-btn" onclick="showSection('quiz')">📝 Latihan HOTS</button>
+            <button class="nav-btn" onclick="showSection('flashcard')">⚡ Kuis Kilat</button>
+            <button class="nav-btn" onclick="showSection('checklist')">📌 Checklist UUD</button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- HOME SECTION -->
+        <div id="home" class="section active">
+            <h2 class="title">Selamat Datang di Ruang Belajar Cantik! ✨</h2>
+            <p style="text-align: center; line-height: 1.8;">
+                Persiapkan dirimu untuk ujian CPNS/Kedinasan dengan elegan dan cerdas. Di sini kamu akan menemukan:
+                <br><br>
+                🎀 <strong>Latihan Soal HOTS</strong> untuk menguji daya analisismu.<br>
+                🎀 <strong>Kuis Kilat (Flashcard)</strong> untuk menghafal istilah kunci penting.<br>
+                🎀 <strong>Checklist Pasal UUD 1945</strong> agar pemetaan materimu rapi terstruktur.
+                <br><br>
+                <em>"Keanggunan sejati berasal dari kecerdasan dan persiapan yang matang."</em> 💖
+            </p>
+        </div>
+
+        <!-- QUIZ SECTION -->
+        <div id="quiz" class="section">
+            <div id="quiz-container">
+                <h2 class="title">📝 Latihan Soal Studi Kasus (HOTS)</h2>
+                <div class="question-box">
+                    <p class="question-text" id="question-text">Memuat pertanyaan...</p>
+                    <div class="options" id="options-container">
+                        <!-- Options will be rendered here via JS -->
+                    </div>
+                </div>
+                <div class="explanation" id="explanation-box">
+                    <strong>💡 Penjelasan:</strong> <span id="explanation-text"></span>
+                </div>
+                <button class="btn-action" id="next-btn" onclick="nextQuestion()">Selanjutnya ➡️</button>
+            </div>
+
+            <div id="result-container" class="result-screen">
+                <h2 class="title">🎉 Yeay! Kamu Telah Selesai! 🎉</h2>
+                <div class="score-circle" id="final-score">100</div>
+                <p id="score-message" style="margin-bottom: 20px; font-weight: bold;"></p>
+                
+                <div id="review-box" style="text-align: left; margin-top: 20px; border-top: 2px dashed var(--secondary); padding-top: 20px;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">🔍 Review Soal yang Salah:</h3>
+                    <div id="review-list"></div>
+                </div>
+
+                <button class="btn-action" style="display: inline-block; margin-top: 20px;" onclick="restartQuiz()">🔄 Ulangi Latihan</button>
+            </div>
+        </div>
+
+        <!-- FLASHCARD SECTION -->
+        <div id="flashcard" class="section">
+            <h2 class="title">⚡ Kuis Kilat Istilah Kunci</h2>
+            <p style="text-align: center; font-size: 14px; margin-bottom: 15px;">Klik kartu untuk melihat makna istilah 🎀</p>
+            
+            <div class="flashcard-container">
+                <div class="flashcard" id="fc-card" onclick="flipCard()">
+                    <div class="flashcard-face flashcard-front" id="fc-front">
+                        Istilah
+                    </div>
+                    <div class="flashcard-face flashcard-back" id="fc-back">
+                        Definisi
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flashcard-controls">
+                <button class="nav-btn" onclick="prevCard()">⬅️ Sebelumnya</button>
+                <span id="fc-counter" style="font-weight: bold; line-height: 35px; color: var(--primary);">1 / 5</span>
+                <button class="nav-btn" onclick="nextCard()">Selanjutnya ➡️</button>
+            </div>
+        </div>
+
+        <!-- CHECKLIST SECTION -->
+        <div id="checklist" class="section">
+            <h2 class="title">📌 Checklist Pasal UUD 1945</h2>
+            <p style="text-align: center; font-size: 14px; margin-bottom: 20px;">Tandai pasal yang sudah benar-benar kamu kuasai substansinya! ✅</p>
+            
+            <div id="checklist-container">
+                <!-- Checklist items injected via JS -->
+            </div>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold; color: var(--primary);" id="checklist-progress">Progress: 0%</p>
+        </div>
+    </div>
+
+    <footer>
+        Dibuat dengan 💖 dan ☕ untuk pejuang ASN. Semoga Lulus Tahun Ini!
+    </footer>
+
+    <script>
+        // ==========================================
+        // 1. NAVIGATION LOGIC
+        // ==========================================
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            // Remove active class from buttons
+            document.querySelectorAll('nav .nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            // Add active class to clicked button
+            event.currentTarget.classList.add('active');
+        }
+
+        // ==========================================
+        // 2. QUIZ LOGIC (HOTS)
+        // ==========================================
+        const quizData = [
+            {
+                question: "Seorang ASN di instansi X mengetahui adanya praktik manipulasi laporan keuangan yang dilakukan oleh atasannya. Sebagai ASN yang menjunjung tinggi nilai integritas Pancasila, tindakan paling tepat yang harus ia lakukan berdasarkan asas-asas kepatutan adalah...",
+                options: [
+                    "A. Menegur atasan secara langsung di depan pegawai lain agar jera.",
+                    "B. Diam saja karena takut kehilangan pekerjaan dan membahayakan karirnya.",
+                    "C. Melaporkan tindakan tersebut melalui sistem whistleblowing instansi dengan bukti yang kuat.",
+                    "D. Menyebarkan informasi tersebut ke media sosial agar mendapat dukungan publik.",
+                    "E. Meminta bagian dari hasil manipulasi tersebut sebagai uang tutup mulut."
+                ],
+                answer: 2, // Index C
+                explanation: "Tindakan C (Sistem Whistleblowing) merupakan bentuk implementasi nilai integritas dan nilai praksis Pancasila (Sila ke-2 dan ke-5). Melaporkan melalui jalur resmi dengan bukti yang kuat menunjukkan sikap profesional, berani membela kebenaran, namun tetap taat pada asas dan prosedur hukum (tidak main hakim sendiri seperti D atau A)."
+            },
+            {
+                question: "Di sebuah daerah, mayoritas penduduk menolak pembangunan tempat ibadah agama minoritas karena alasan ketidaknyamanan. Padahal, izin pembangunan sudah diterbitkan secara sah oleh pemerintah daerah. Berdasarkan nilai-nilai UUD 1945, bagaimana seharusnya pemerintah daerah bersikap?",
+                options: [
+                    "A. Mencabut izin pembangunan untuk menghindari konflik horizontal yang lebih luas.",
+                    "B. Membiarkan masalah tersebut diselesaikan sendiri oleh kedua belah pihak.",
+                    "C. Melakukan sosialisasi persuasif, menjamin perlindungan hukum, dan memastikan pembangunan tetap berjalan.",
+                    "D. Memindahkan lokasi pembangunan ke daerah yang terpencil agar tidak mengganggu.",
+                    "E. Menyerahkan urusan tersebut kepada pemerintah pusat karena bukan wewenang daerah."
+                ],
+                answer: 2, // Index C
+                explanation: "Pasal 29 UUD 1945 menjamin kemerdekaan tiap-tiap penduduk untuk memeluk agama dan beribadat. Negara wajib hadir (C) untuk melindungi hak tersebut. Mencabut izin karena tekanan massa melanggar konstitusi."
+            },
+            {
+                question: "Konsep 'Bhinneka Tunggal Ika' tidak hanya diartikan sebagai berbeda-beda tetapi tetap satu jua, melainkan juga harus menjadi Leitstar (Bintang Penunjuk Jalan). Dalam konteks kebangsaan modern, bentuk nyata implementasi Leitstar Dinamis dari Bhinneka Tunggal Ika adalah...",
+                options: [
+                    "A. Mempertahankan budaya daerah tanpa mau menerima perkembangan teknologi luar.",
+                    "B. Menghapus segala bentuk identitas kesukuan dan melebur menjadi satu identitas nasional tunggal.",
+                    "C. Menjadikan keragaman sebagai modal sosial untuk berkolaborasi dalam memajukan ekonomi dan inovasi bangsa.",
+                    "D. Memisahkan wilayah pemukiman berdasarkan kesamaan etnis agar terhindar dari konflik.",
+                    "E. Mewajibkan seluruh masyarakat menggunakan satu bahasa daerah sebagai identitas pemersatu."
+                ],
+                answer: 2, // Index C
+                explanation: "Leitstar Dinamis berarti ideologi/semboyan bangsa tidak kaku, melainkan menjadi panduan yang adaptif bergerak maju. Keragaman (Bhinneka) dijadikan energi kolaborasi untuk kemajuan bangsa di era modern (C), bukan sekadar slogan statis."
+            },
+            {
+                question: "Sistem Pertahanan dan Keamanan Rakyat Semesta (Sishankamrata) melibatkan seluruh elemen negara. Jika terjadi ancaman non-militer berupa perang siber (cyber war) terhadap data kependudukan Indonesia, siapa yang menjadi komponen utama?",
+                options: [
+                    "A. Tentara Nasional Indonesia (TNI).",
+                    "B. Kepolisian Negara Republik Indonesia (Polri).",
+                    "C. Badan Siber dan Sandi Negara (BSSN) dan instansi pemerintah terkait.",
+                    "D. Seluruh masyarakat Indonesia secara fisik.",
+                    "E. Organisasi pertahanan militer cadangan."
+                ],
+                answer: 2, // Index C
+                explanation: "Dalam ancaman non-militer, komponen utamanya adalah lembaga pemerintah di luar bidang pertahanan sesuai bentuk ancamannya. Untuk cyber war, lembaga spesifik seperti BSSN, Kominfo, dll adalah komponen utama (C)."
+            },
+            {
+                question: "Pancasila memiliki nilai dasar, nilai instrumental, dan nilai praksis. Peraturan Daerah (Perda) mengenai larangan merokok di tempat umum guna melindungi hak kesehatan masyarakat merupakan bentuk dari penjabaran nilai...",
+                options: [
+                    "A. Nilai Dasar",
+                    "B. Nilai Praksis",
+                    "C. Nilai Instrumental",
+                    "D. Nilai Material",
+                    "E. Nilai Vital"
+                ],
+                answer: 2, // Index C
+                explanation: "Nilai Instrumental adalah penjabaran dari nilai dasar ke dalam bentuk undang-undang, peraturan pemerintah, hingga Perda. Karena berbentuk Perda, maka ia merupakan Nilai Instrumental (C). Sedangkan praktik nyatanya di lapangan disebut Nilai Praksis."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let wrongList = [];
+
+        const questionText = document.getElementById("question-text");
+        const optionsContainer = document.getElementById("options-container");
+        const explanationBox = document.getElementById("explanation-box");
+        const explanationText = document.getElementById("explanation-text");
+        const nextBtn = document.getElementById("next-btn");
+
+        function loadQuestion() {
+            answered = false;
+            explanationBox.style.display = "none";
+            nextBtn.style.display = "none";
+            optionsContainer.innerHTML = "";
+            
+            let q = quizData[currentQuestion];
+            questionText.innerText = `Soal ${currentQuestion + 1} dari ${quizData.length}: \n\n${q.question}`;
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex, btnElement) {
+            if (answered) return;
+            answered = true;
+
+            let q = quizData[currentQuestion];
+            let allBtns = document.querySelectorAll(".option-btn");
+
+            // Disable all buttons
+            allBtns.forEach(b => b.disabled = true);
+
+            if (selectedIndex === q.answer) {
+                btnElement.classList.add("correct");
+                btnElement.innerHTML += " ✅ Benar!";
+                score += (100 / quizData.length);
+            } else {
+                btnElement.classList.add("wrong");
+                btnElement.innerHTML += " ❌ Salah!";
+                allBtns[q.answer].classList.add("correct"); // Highlight correct answer
+                
+                // Save for review
+                wrongList.push({
+                    q: q.question,
+                    yourAns: q.options[selectedIndex],
+                    correctAns: q.options[q.answer],
+                    exp: q.explanation
+                });
+            }
+
+            explanationText.innerText = q.explanation;
+            explanationBox.style.display = "block";
+            nextBtn.style.display = "block";
+            
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.innerText = "Lihat Hasil Akhir 🏆";
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById("quiz-container").style.display = "none";
+            document.getElementById("result-container").style.display = "block";
+            
+            let finalScoreText = document.getElementById("final-score");
+            let scoreMsg = document.getElementById("score-message");
+            let fixScore = Math.round(score);
+            
+            finalScoreText.innerText = fixScore;
+
+            if(fixScore >= 80) {
+                scoreMsg.innerText = "Luar Biasa! Pemahamanmu sangat anggun dan tajam! 💖✨";
+            } else if (fixScore >= 50) {
+                scoreMsg.innerText = "Bagus! Sedikit lagi polesan kamu akan jadi master TWK! 🌸";
+            } else {
+                scoreMsg.innerText = "Jangan menyerah cantik! Yuk review lagi dan coba kembali! 💪🎀";
+            }
+
+            let reviewBox = document.getElementById("review-list");
+            reviewBox.innerHTML = "";
+            if(wrongList.length > 0) {
+                document.getElementById("review-box").style.display = "block";
+                wrongList.forEach((w, i) => {
+                    reviewBox.innerHTML += `
+                        <div style="margin-bottom:15px; padding:10px; background:#fff; border-left:4px solid var(--wrong); border-radius:5px; font-size:14px; box-shadow:0 2px 5px rgba(0,0,0,0.05);">
+                            <strong>Soal:</strong> ${w.q}<br><br>
+                            <span style="color:var(--wrong);"><strong>Jawabanmu:</strong> ${w.yourAns}</span><br>
+                            <span style="color:var(--correct);"><strong>Seharusnya:</strong> ${w.correctAns}</span><br><br>
+                            <em style="color:#666;"><strong>Penjelasan:</strong> ${w.exp}</em>
+                        </div>
+                    `;
+                });
+            } else {
+                document.getElementById("review-box").style.display = "none";
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            wrongList = [];
+            document.getElementById("quiz-container").style.display = "block";
+            document.getElementById("result-container").style.display = "none";
+            nextBtn.innerText = "Selanjutnya ➡️";
+            loadQuestion();
+        }
+
+        // Initialize Quiz
+        loadQuestion();
+
+
+        // ==========================================
+        // 3. FLASHCARD LOGIC
+        // ==========================================
+        const flashcardData = [
+            { term: "Pancasila Sbg Meja Statis", def: "Pancasila sebagai titik temu, wadah persatuan, dan landasan yang statis/kokoh menyatukan keberagaman bangsa." },
+            { term: "Pancasila Sbg Leitstar Dinamis", def: "Pancasila sebagai bintang penunjuk jalan yang dinamis, memandu bangsa mencapai cita-cita merespons perkembangan zaman." },
+            { term: "Nilai Dasar", def: "Asas-asas yang diterima sebagai dalil mutlak (Ketuhanan, Kemanusiaan, Persatuan, Kerakyatan, Keadilan)." },
+            { term: "Nilai Instrumental", def: "Pelaksanaan umum dari nilai dasar, bentuknya wujud hukum, UU, TAP MPR, dan regulasi lainnya." },
+            { term: "Nilai Praksis", def: "Realisasi atau penerapan nilai instrumental dalam kehidupan sehari-hari secara nyata oleh warga negara." },
+            { term: "Sishankamrata", def: "Sistem Pertahanan dan Keamanan Rakyat Semesta. TNI/Polri sbg kekuatan utama, Rakyat sbg kekuatan pendukung." },
+            { term: "Chauvinisme", def: "Rasa cinta tanah air (nasionalisme) yang sempit, berlebihan, dan merendahkan bangsa lain." },
+            { term: "Asas Ius Soli", def: "Asas penentuan kewarganegaraan seseorang berdasarkan tempat kelahirannya." }
+        ];
+
+        let currentCard = 0;
+        const fcFront = document.getElementById("fc-front");
+        const fcBack = document.getElementById("fc-back");
+        const fcCard = document.getElementById("fc-card");
+        const fcCounter = document.getElementById("fc-counter");
+
+        function loadFlashcard() {
+            fcCard.classList.remove("flip"); // ensure front side up
+            setTimeout(() => {
+                fcFront.innerText = flashcardData[currentCard].term;
+                fcBack.innerText = flashcardData[currentCard].def;
+                fcCounter.innerText = `${currentCard + 1} / ${flashcardData.length}`;
+            }, 150); // wait for flip animation if any
+        }
+
+        function flipCard() {
+            fcCard.classList.toggle("flip");
+        }
+
+        function nextCard() {
+            currentCard = (currentCard + 1) % flashcardData.length;
+            loadFlashcard();
+        }
+
+        function prevCard() {
+            currentCard = (currentCard - 1 + flashcardData.length) % flashcardData.length;
+            loadFlashcard();
+        }
+
+        // Initialize Flashcards
+        loadFlashcard();
+
+
+        // ==========================================
+        // 4. CHECKLIST PASAL UUD LOGIC
+        // ==========================================
+        const pasalData = [
+            { id: "p26", pasal: "Pasal 26", isi: "Warga Negara dan Penduduk (Syarat dan ketentuan)." },
+            { id: "p27_1", pasal: "Pasal 27 ayat (1)", isi: "Kesamaan kedudukan dalam hukum dan pemerintahan." },
+            { id: "p27_2", pasal: "Pasal 27 ayat (2)", isi: "Hak atas pekerjaan dan penghidupan yang layak." },
+            { id: "p27_3", pasal: "Pasal 27 ayat (3)", isi: "Hak dan Kewajiban ikut serta dalam upaya pembelaan negara." },
+            { id: "p28A_J", pasal: "Pasal 28A - 28J", isi: "Spesifik mengenai Hak Asasi Manusia (HAM)." },
+            { id: "p29", pasal: "Pasal 29", isi: "Negara berdasar Ketuhanan YME & Kebebasan beragama." },
+            { id: "p30", pasal: "Pasal 30", isi: "Pertahanan dan Keamanan Negara (Sishankamrata)." },
+            { id: "p31", pasal: "Pasal 31", isi: "Hak atas pendidikan & Anggaran pendidikan 20%." },
+            { id: "p32", pasal: "Pasal 32", isi: "Kebudayaan Nasional dan Bahasa Daerah." },
+            { id: "p33", pasal: "Pasal 33", isi: "Perekonomian Nasional & Kesejahteraan Sosial (Koperasi, Bumi/Air)." },
+            { id: "p34", pasal: "Pasal 34", isi: "Fakir miskin & anak telantar dipelihara oleh negara." }
+        ];
+
+        const checklistContainer = document.getElementById("checklist-container");
+        const progressText = document.getElementById("checklist-progress");
+
+        function renderChecklist() {
+            checklistContainer.innerHTML = "";
+            pasalData.forEach((item, index) => {
+                // Restore state from LocalStorage if exists
+                let isChecked = localStorage.getItem(item.id) === "true";
+                
+                const div = document.createElement("div");
+                div.className = "checklist-item";
+                if(isChecked) div.classList.add("checked-text");
+
+                div.innerHTML = `
+                    <input type="checkbox" id="${item.id}" onchange="toggleCheck('${item.id}', this)" ${isChecked ? 'checked' : ''}>
+                    <div class="checklist-text">
+                        <span class="pasal-title">${item.pasal}</span>
+                        <span class="pasal-desc">${item.isi}</span>
+                    </div>
+                `;
+                checklistContainer.appendChild(div);
+            });
+            updateProgress();
+        }
+
+        function toggleCheck(id, checkbox) {
+            localStorage.setItem(id, checkbox.checked);
+            let parent = checkbox.parentElement;
+            if (checkbox.checked) {
+                parent.classList.add("checked-text");
+            } else {
+                parent.classList.remove("checked-text");
+            }
+            updateProgress();
+        }
+
+        function updateProgress() {
+            let checkedCount = 0;
+            pasalData.forEach(item => {
+                if (localStorage.getItem(item.id) === "true") checkedCount++;
+            });
+            let percentage = Math.round((checkedCount / pasalData.length) * 100);
+            progressText.innerText = `Progress Penguasaan: ${percentage}% ✨`;
+        }
+
+        // Initialize Checklist
+        renderChecklist();
+
+    </script>
+</body>
+</html>
